@@ -42,8 +42,8 @@ public class TestBase {
 
     public void loginAdminPage() {
         eventFiringWebDriver.get("http://158.101.173.161/admin/");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//form//input[@name='username']"))).sendKeys("testadmin");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("form input[name=password]"))).sendKeys("R8MRDAYT_test");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//form//input[@name='username']"))).sendKeys("");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("form input[name=password]"))).sendKeys("");
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//form//button[@name='login' and @type='submit']"))).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='box-apps-menu']")));
     }
