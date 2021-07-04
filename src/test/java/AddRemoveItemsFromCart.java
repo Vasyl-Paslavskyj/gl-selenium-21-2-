@@ -23,10 +23,9 @@ public class AddRemoveItemsFromCart extends TestBase{
 
     @BeforeEach
     void setUp() {
-        driver.get("http://158.101.173.161/");
-        WebElement item;
+        eventFiringWebDriver.get("http://158.101.173.161/");
         if(wait.until(ExpectedConditions.elementToBeClickable(acceptCookies)).isDisplayed()){
-            new Actions(driver).moveToElement(driver.findElement(acceptCookies)).pause(500).click().perform();
+            new Actions(eventFiringWebDriver).moveToElement(eventFiringWebDriver.findElement(acceptCookies)).pause(500).click().perform();
         }
     }
 
@@ -34,37 +33,37 @@ public class AddRemoveItemsFromCart extends TestBase{
     void add_remove_items() {
         int count = 3;
         addProducts(count);
-        Assertions.assertEquals(driver.findElement(countLabel).getText(), String.valueOf(count));
+        Assertions.assertEquals(eventFiringWebDriver.findElement(countLabel).getText(), String.valueOf(count));
         removeProducts();
-        Assertions.assertEquals(driver.findElement(countLabel).getText(), "");
+        Assertions.assertEquals(eventFiringWebDriver.findElement(countLabel).getText(), "");
     }
 
     private void removeProducts() {
         wait.until(ExpectedConditions.elementToBeClickable(cart)).click();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(shoppingCart, "Shopping Cart"));
-        int size = driver.findElements(removeCart).size();
+        int size = eventFiringWebDriver.findElements(removeCart).size();
         for (int item = 0; item < size; item++) {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(removeCart));
-            new Actions(driver).moveToElement(element).pause(500).click().perform();
+            new Actions(eventFiringWebDriver).moveToElement(element).pause(500).click().perform();
             if(item < size-1)
                 wait.until(ExpectedConditions.presenceOfElementLocated(cartItemsTable));
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(noItemsTxt));
-        driver.get("http://158.101.173.161/");
+        eventFiringWebDriver.get("http://158.101.173.161/");
     }
 
     private void addProducts(int count) {
         for (int i = 1; i <= count; i++){
             addRandomProduct();
-            new Actions(driver).moveToElement(wait.until(ExpectedConditions.elementToBeClickable(addToCart)))
+            new Actions(eventFiringWebDriver).moveToElement(wait.until(ExpectedConditions.elementToBeClickable(addToCart)))
                     .pause(500).click().perform();
             wait.until(ExpectedConditions.textToBePresentInElementLocated(countLabel, String.valueOf(i)));
-            driver.get("http://158.101.173.161/");
+            eventFiringWebDriver.get("http://158.101.173.161/");
         }
     }
 
     private void addRandomProduct() {
-        int index = random.nextInt(driver.findElements(popularProducts).size()) + 1;
+        int index = random.nextInt(eventFiringWebDriver.findElements(popularProducts).size()) + 1;
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='box-popular-products']//article[@class='product-column']["+index+"]" ))).click();
     }
 }

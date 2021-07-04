@@ -19,26 +19,26 @@ public class OpenLinksInNewWindow extends TestBase{
     }
 
     @Test
-    void name() {
-        driver.get("http://158.101.173.161/admin/?app=countries&doc=countries");
+    void openSwitchBack () {
+        eventFiringWebDriver.get("http://158.101.173.161/admin/?app=countries&doc=countries");
         wait.until(ExpectedConditions.elementToBeClickable(addNewCountry)).click();
         wait.until(ExpectedConditions.urlContains("edit_country"));
-        for (WebElement element: driver.findElements(arrowIcon)) {
-            String originWindow = driver.getWindowHandle();
-            new Actions(driver).moveToElement(element).pause(200).click().perform();
-            Set<String> allWindows = driver.getWindowHandles();
+        for (WebElement element: eventFiringWebDriver.findElements(arrowIcon)) {
+            String originWindow = eventFiringWebDriver.getWindowHandle();
+            new Actions(eventFiringWebDriver).moveToElement(element).pause(200).click().perform();
+            Set<String> allWindows = eventFiringWebDriver.getWindowHandles();
             Iterator<String> iterator = allWindows.iterator();
             while (iterator.hasNext()) {
                 String childWindow = iterator.next();
                 if(!originWindow.equalsIgnoreCase(childWindow)) {
-                    driver.switchTo().window(childWindow);
+                    eventFiringWebDriver.switchTo().window(childWindow);
                     wait.until(ExpectedConditions.urlContains("wikipedia"));
-                    Assertions.assertTrue(driver.getTitle().contains("Wikipedia"));
-                    driver.close();
+                    Assertions.assertTrue(eventFiringWebDriver.getTitle().contains("Wikipedia"));
+                    eventFiringWebDriver.close();
                 }
             }
-            driver.switchTo().window(originWindow);
-            Assertions.assertTrue(driver.getTitle().contains("Add New Country"));
+            eventFiringWebDriver.switchTo().window(originWindow);
+            Assertions.assertTrue(eventFiringWebDriver.getTitle().contains("Add New Country"));
         }
     }
 }
